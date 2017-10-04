@@ -9,7 +9,11 @@
   <p>
      OK Then.
   </p>
-  <p>
-    you learned to coustomize ionic apps !
-  </p>
+  <ion-list>
+    
+    <ion-item href="#" *ngFor="let x of items" >
+    {{x.name}}
+    </ion-item>
+    
+  </ion-list>
 </ion-content>

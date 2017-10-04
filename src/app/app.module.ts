@@ -8,6 +8,7 @@ import {HttpModule } from '@angular/http'
 import { IonicStorageModule } from '@ionic/storage';
 import { SQLitePorter } from '@ionic-native/sqlite-porter';
 import { SQLite } from '@ionic-native/sqlite';
+ 
 
 
 import { MyApp } from './app.component';
@@ -49,7 +50,8 @@ import { DatabaseProvider } from '../providers/database/database';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DatabaseProvider,
     SQLitePorter,      // need to check out why this is provider
-    SQLite             // need to check out why this is provider
+    SQLite              // need to check out why this is provider
+   
   ]
 })
 export class AppModule {}

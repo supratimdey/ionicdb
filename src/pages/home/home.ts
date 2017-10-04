@@ -3,7 +3,8 @@ import { NavController } from 'ionic-angular';
 
 import {SQLite,SQLiteObject} from '@ionic-native/sqlite';
 import { IonicStorageModule } from '@ionic/storage';
-import { SQLitePorter } from '@ionic-native/sqlite-porter';
+
+//import { SQLitePorter } from '@ionic-native/sqlite-porter';
 
 @Component({
   selector: 'page-home',
@@ -12,32 +13,45 @@ import { SQLitePorter } from '@ionic-native/sqlite-porter';
 export class HomePage {
 
   sqlstorage: SQLite;
-  database: SQLiteObject;
+  private database: SQLiteObject; 
+
   items: Array<Object>;
 
-  private options = { name: "data.db", location: 'default', createFromLocation: 1 };
-  private createdbsql= "CREATE TABLE IF NOT EXISTS developer(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT,skill TEXT,yearsOfExperience INTEGER);";
+  private options = { name: "data.db", location: 'default' };
+  private createdbsql= "CREATE TABLE IF NOT EXISTS developer(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT,skill TEXT,yearsOfExperience INTEGER)";
   private dbfill1 ="INSERT INTO developer(name, skill, yearsOfExperience) VALUES ('Simon', 'Ionic', '4')";
   private dbfill2 ="INSERT INTO developer(name, skill, yearsOfExperience) VALUES ('Jorge', 'Firebase', '2')";
   private dbfill3 ="INSERT INTO developer(name, skill, yearsOfExperience) VALUES ('Max', 'Startup', '5')";
-
-  constructor(public navCtrl: NavController, private sqlite: SQLite, 
-    private sqliteObject:SQLiteObject, private sqliteporter:SQLitePorter ) {
-
+  
+  
+  constructor(public navCtrl: NavController ) 
+  {
     this.sqlstorage = new SQLite();
+    
+        this.sqlstorage.create(this.options).then( (db: SQLiteObject) => {
+         // db.executeSql(this.createdbsql,{});
+         // this.database =db;
+        //  console.log("Db created.....");
 
-    this.sqlstorage.create(this.options).then( (db: SQLiteObject) => {
-      db.executeSql(this.createdbsql,{});
-      this.database =db;
-      console.log("Db created.....");
-      this.addItem(this.dbfill1);
-      this.addItem(this.dbfill2);
-      this.addItem(this.dbfill3);
-      console.log("data inserted....");
+        db.executeSql(this.createdbsql,{}).then(() => alert('Executed  create table SQL'))
+        .catch(e => console.log(e));
+        
+        db.executeSql(this.dbfill1,{}).then(() => alert('Executed  insert 1  SQL'))
+        .catch(e => console.log(e));
 
-    });
+        db.executeSql(this.dbfill2,{}).then(() => alert('Executed  insert 1  SQL'))
+        .catch(e => console.log(e));
+
+        db.executeSql(this.dbfill3,{}).then(() => alert('Executed  insert 1  SQL'))
+        .catch(e => console.log(e));
+
+         
+         // console.log("data inserted....");
+          this.findAll();
+    
+        });
+    
   }
-
   public addItem(  inputq: string ) {
     this.database.executeSql(inputq,{}).then((data) => {
         console.log("Success");
@@ -51,8 +65,8 @@ export class HomePage {
         this.items = [];
         if(data.rows.length > 0) {
             for(var i = 0; i < data.rows.length; i++) {
-                this.items.push(data.rows.item(i));
-                console.log(data.rows.item(i));
+                this.items.push({name: data.rows.item(i).name} );
+               // alert(data.rows.item(i));
             }
         }
     }, (e) => {
@@ -60,5 +74,7 @@ export class HomePage {
         console.log("Errot: " + JSON.stringify(e));
     });
   }
+
+  
 
 }
