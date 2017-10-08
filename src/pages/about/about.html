@@ -1,11 +1,25 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      About
+      Add Data
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+    
+      <ion-item>
+        <ion-label floating>Developer</ion-label>
+        <ion-input type="text" [(ngModel)]="name"></ion-input>
+      </ion-item>
+     
+      <ion-item>
+        <ion-label floating>Skill</ion-label>
+        <ion-input type="text" [(ngModel)]="skill"></ion-input>
+      </ion-item>
+     
+      <button ion-button full (click)="add()">
+        insert
+      </button>
 
 </ion-content>

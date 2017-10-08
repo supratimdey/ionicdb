@@ -12,8 +12,8 @@ import { HomePage } from '../pages/home/home';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  //rootPage:any = TabsPage;
-  rootPage:any = HomePage;
+  rootPage:any = TabsPage;
+  //rootPage:any = HomePage;
 
 
 
